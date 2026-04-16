@@ -81,7 +81,7 @@ const steps=[
   {t:'radio',s:2,q:'¿Es la primera vez que el turista MICE visita Cali o suele ser visitante recurrente?',o:['Primera visita en la mayoría de los casos','Visitante recurrente en la mayoría de los casos','Mixto, depende del evento']},
   {t:'radio',s:2,q:'¿Qué días de la semana se realizan con mayor frecuencia los eventos MICE en Cali?',o:['Lunes a miércoles','Martes a jueves','Miércoles a viernes','Fines de semana']},
   {t:'radio',s:2,q:'¿Cuál es el gasto promedio estimado del turista MICE en actividades complementarias por día?',o:['$50.000 – $150.000 COP','$150.000 – $300.000 COP','$300.000 – $400.000 COP','Más de $400.000 COP']},
-  {t:'radio',s:2,q:'¿Con qué frecuencia los turistas MICE solicitan actividades turísticas adicionales al evento principal?',o:['Siempre o casi siempre','Con frecuencia','Ocasionalmente','Raramente o nunca']},
+  {t:'radio',s:2,q:'¿Con qué frecuencia los turistas MICE solicitan actividades turísticas adicionales al evento principal?',o:['Siempre o casi siempre','Con frecuencia','Ocasionalmente','Nunca']},
   {t:'radio',s:2,q:'¿Los turistas MICE suelen viajar acompañados?',o:['Solos','Con pareja','Con familia (incluyendo hijos)','Con colegas del mismo evento','Combinado (Pareja / Familia + Colegas)']},
   {t:'check',s:3,q:'Tipo de experiencia más solicitada',o:['Experiencias culturales urbanas','Gastronomía local','Naturaleza y paisajes','Experiencias rurales','Actividades de bienestar','Vida nocturna','Experiencias comunitarias','Tours cortos de ciudad'],hint:'Puede seleccionar varias opciones'},
   {t:'radio',s:3,q:'Zona de mayor interés para actividades',o:['Zona urbana','Zona periurbana','Zona rural']},
@@ -219,14 +219,8 @@ function sendToSheets(){
 
 function go(d){
   save();
-  const next=Math.max(0,Math.min(steps.length,cur+d));
-  if(next>=steps.length) sendToSheets();
-  cur=next;
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-render();
-</script>
-</body>
-</html>
+  let next=Math.max(0,Math.min(steps.length,cur+d));
+  // Si avanza desde pregunta 10 (índice 10) y en p9 respondió "Nunca" (índice 3), salta al final
+  if(d>0 && cur===10 && ans[9]===3){
+    next=steps.length;
+    se
