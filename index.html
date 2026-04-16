@@ -184,4 +184,49 @@ function save(){
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzgw4tg_1M5ArKlUmWouYtXX_2hZBK2ybyAv4rkzmZU-F-ZwkyKzQImDkvmUGZBn9YBKA/exec';
 
 const LABELS=[
-  null,'agencia','ex
+  null,'agencia','experiencia','eventos',
+  'tipoTurista','sector','primeraVisita',
+  'dias','gasto','frecuencia','acompanados',
+  'experienciaTipo','zona','duracion','tiempoLibre',
+  'elementosCulturales','atractivos','sostenibilidad',
+  'paganMas','tipoRecorrido','errores'
+];
+
+function getLabel(stepIdx){return LABELS[stepIdx]||'p'+stepIdx;}
+
+function getValText(stepIdx){
+  const st=steps[stepIdx];
+  const v=ans[stepIdx];
+  if(v===undefined||v===null||v==='') return '';
+  if(st.t==='radio') return st.o[v]||v;
+  if(st.t==='check') return (Array.isArray(v)?v:[v]).map(i=>st.o[i]).join(', ');
+  return v;
+}
+
+function sendToSheets(){
+  const data={};
+  steps.forEach((st,i)=>{
+    if(i===0) return;
+    data[getLabel(i)]=getValText(i);
+  });
+  fetch(SCRIPT_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).catch(()=>{});
+}
+
+function go(d){
+  save();
+  const next=Math.max(0,Math.min(steps.length,cur+d));
+  if(next>=steps.length) sendToSheets();
+  cur=next;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
