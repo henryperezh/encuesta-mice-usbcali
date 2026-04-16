@@ -223,4 +223,19 @@ function go(d){
   // Si avanza desde pregunta 10 (índice 10) y en p9 respondió "Nunca" (índice 3), salta al final
   if(d>0 && cur===10 && ans[9]===3){
     next=steps.length;
-    se
+    sendToSheets();
+    cur=next;
+    render();
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  if(next>=steps.length) sendToSheets();
+  cur=next;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
