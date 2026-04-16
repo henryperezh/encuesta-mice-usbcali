@@ -181,14 +181,7 @@ function save(){
   if(ta)ans[cur]=ta.value;
 }
 
-function go(d){
-  save();
-  cur=Math.max(0,Math.min(steps.length,cur+d));
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzgw4tg_1M5ArKlUmWouYtXX_2hZBK2ybyAv4rkzmZU-F-ZwkyKzQImDkvmUGZBn9YBKA/exec';
 
-render();
-</script>
-</body>
-</html>
+const LABELS=[
+  null,'agencia','ex
