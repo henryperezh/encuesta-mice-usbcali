@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta MICE – Maestría en Gerencia Turística · USB Cali</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:1.5rem 1rem}
+  #app{width:100%;max-width:640px}
+  .banner{background:#1e4d1f;color:#fff;border-radius:12px 12px 0 0;padding:1.2rem 1.6rem}
+  .banner-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#C8A84B;font-weight:700;margin-bottom:4px}
+  .banner-title{font-size:22px;font-weight:900;line-height:1.1;text-transform:uppercase;letter-spacing:0.5px}
+  .banner-title span{color:#C8A84B}
+  .banner-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:8px;letter-spacing:0.3px}
+  .prog-wrap{background:#c5d9c5;height:5px}
+  .prog{background:#C8A84B;height:5px;transition:width .4s ease;border-radius:0 3px 3px 0}
+  .card{background:#fff;border:1px solid #dde8dd;border-radius:0 0 12px 12px;padding:1.6rem}
+  .step-num{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+  .sec-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 11px;border-radius:20px;margin-bottom:1rem}
+  .q{font-size:16px;font-weight:600;color:#1a2e1a;line-height:1.5;margin-bottom:1.2rem}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid #dde8dd;border-radius:8px;cursor:pointer;font-size:14px;color:#1a2e1a;background:#fff;transition:border-color .15s,background .15s;user-select:none}
+  .opt:hover{border-color:#1e4d1f;background:#f2f7f2}
+  .opt.sel{border-color:#1e4d1f;background:#f2f7f2}
+  .circ{width:18px;height:18px;border-radius:50%;border:1.5px solid #bbb;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .opt.sel .circ{background:#1e4d1f;border-color:#1e4d1f}
+  .dot{width:8px;height:8px;border-radius:50%;background:#fff;display:none}
+  .opt.sel .dot{display:block}
+  .chk{width:18px;height:18px;border-radius:4px;border:1.5px solid #bbb;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700;transition:all .15s}
+  .opt.sel .chk{background:#1e4d1f;border-color:#1e4d1f}
+  .chk-mark{display:none}
+  .opt.sel .chk-mark{display:block}
+  textarea,input[type=text]{width:100%;border:1px solid #dde8dd;border-radius:8px;padding:10px 12px;font-size:14px;color:#1a2e1a;background:#fff;outline:none;transition:border .15s;font-family:'Segoe UI',sans-serif}
+  textarea{resize:vertical;min-height:100px;line-height:1.6}
+  input[type=text]{padding:10px 12px}
+  input[type=text]:focus,textarea:focus{border-color:#1e4d1f;box-shadow:0 0 0 3px rgba(30,77,31,0.08)}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
+  .btn{font-size:13px;font-weight:600;padding:9px 22px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .15s;letter-spacing:.3px}
+  .btn-back{background:transparent;border-color:#bbb;color:#666}
+  .btn-back:hover{border-color:#555;color:#333}
+  .btn-next{background:#1e4d1f;border-color:#1e4d1f;color:#fff}
+  .btn-next:hover{background:#163d17}
+  .pct{font-size:12px;color:#888}
+  .intro-body{font-size:13.5px;color:#444;line-height:1.75;margin-bottom:.9rem}
+  .intro-title{font-size:16px;font-weight:700;color:#1a2e1a;margin-bottom:1rem;line-height:1.4}
+  .done{text-align:center;padding:2rem 1rem}
+  .done-ring{width:56px;height:56px;border-radius:50%;background:#eaf3de;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:24px}
+  .done-h{font-size:20px;font-weight:700;color:#1e4d1f;margin-bottom:.6rem}
+  .done-p{font-size:13.5px;color:#555;line-height:1.8}
+  .hint{font-size:11px;color:#999;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="banner">
+    <div class="banner-label">Posgrados · USBCali</div>
+    <div class="banner-title">Maestría en <span>Gerencia Turística</span></div>
+    <div class="banner-sub">SNIES: 107592 &nbsp;·&nbsp; Reg. Cal: Res. 016078 · 29 julio 2025 · 7 Años</div>
+  </div>
+  <div class="prog-wrap"><div class="prog" id="pg"></div></div>
+  <div class="card" id="cc"></div>
+</div>
+
+<script>
+const S=[
+  {n:'Presentación',bg:'#eaf3de',tc:'#3B6D11'},
+  {n:'Perfil de la Agencia',bg:'#e6f1fb',tc:'#185FA5'},
+  {n:'Perfil del Turista MICE',bg:'#faeeda',tc:'#854F0B'},
+  {n:'Preferencias de Experiencias',bg:'#fbeaf0',tc:'#993556'},
+  {n:'Valor y Sostenibilidad',bg:'#eaf3de',tc:'#3B6D11'},
+];
+
+const steps=[
+  {t:'intro',s:0},
+  {t:'text',s:1,q:'Nombre de la agencia'},
+  {t:'radio',s:1,q:'Años de experiencia en turismo MICE',o:['Menos de 2 años','2–5 años','6–10 años','Más de 10 años']},
+  {t:'check',s:1,q:'Tipo de eventos que opera con mayor frecuencia',o:['Congresos académicos','Convenciones empresariales','Viajes de incentivo','Eventos corporativos','Ferias y exposiciones','Otro'],hint:'Puede seleccionar varias opciones'},
+  {t:'radio',s:2,q:'¿Cuál es el tipo de turista MICE predominante que llega a Cali?',o:['Nacional','Internacional','Mixto']},
+  {t:'radio',s:2,q:'Sector económico que más moviliza eventos en Cali',o:['Salud','Educación','Tecnología','Industria','Comercio','Gobierno','Otro']},
+  {t:'radio',s:2,q:'¿Es la primera vez que el turista MICE visita Cali o suele ser visitante recurrente?',o:['Primera visita en la mayoría de los casos','Visitante recurrente en la mayoría de los casos','Mixto, depende del evento']},
+  {t:'radio',s:2,q:'¿Qué días de la semana se realizan con mayor frecuencia los eventos MICE en Cali?',o:['Lunes a miércoles','Martes a jueves','Miércoles a viernes','Fines de semana']},
+  {t:'radio',s:2,q:'¿Cuál es el gasto promedio estimado del turista MICE en actividades complementarias por día?',o:['Menos de $50.000 COP','$50.000 – $150.000 COP','$150.000 – $300.000 COP','Más de $300.000 COP']},
+  {t:'radio',s:2,q:'¿Con qué frecuencia los turistas MICE solicitan actividades turísticas adicionales al evento principal?',o:['Siempre o casi siempre','Con frecuencia','Ocasionalmente','Raramente o nunca']},
+  {t:'radio',s:2,q:'¿Los turistas MICE suelen viajar acompañados?',o:['Solos','Con pareja','Con familia (incluyendo hijos)','Con colegas del mismo evento','Combinado (Pareja / Familia + Colegas)']},
+  {t:'check',s:3,q:'Tipo de experiencia más solicitada',o:['Experiencias culturales urbanas','Gastronomía local','Naturaleza y paisajes','Experiencias rurales','Actividades de bienestar','Vida nocturna','Experiencias comunitarias','Tours cortos de ciudad'],hint:'Puede seleccionar varias opciones'},
+  {t:'radio',s:3,q:'Zona de mayor interés para actividades',o:['Zona urbana','Zona periurbana','Zona rural']},
+  {t:'radio',s:3,q:'Duración ideal de un recorrido complementario',o:['2–3 horas','Medio día','Día completo']},
+  {t:'radio',s:3,q:'¿De cuánto tiempo libre dispone habitualmente el turista MICE para actividades complementarias?',o:['Menos de 3 horas','Medio día (3–6 horas)','Un día completo']},
+  {t:'check',s:3,q:'¿Qué elementos de la identidad cultural de Cali generan mayor interés en el turista MICE?',o:['Salsa y danza','Gastronomía tradicional','Patrimonio histórico y arquitectónico','Arte urbano y cultura contemporánea','Festivales y eventos culturales'],hint:'Puede seleccionar varias opciones'},
+  {t:'textarea',s:3,q:'¿Qué atractivos o lugares culturales de Cali mencionan o preguntan con más frecuencia los turistas MICE?'},
+  {t:'radio',s:4,q:'¿El segmento MICE muestra interés por experiencias sostenibles?',o:['Alto','Medio','Bajo','No es un factor decisivo']},
+  {t:'radio',s:4,q:'¿Están dispuestos a pagar más por experiencias diferenciadas y responsables?',o:['Sí','No']},
+  {t:'textarea',s:4,q:'Desde su experiencia, ¿qué tipo de recorrido tendría mayor aceptación dentro del mercado MICE en Cali?'},
+  {t:'textarea',s:4,q:'¿Qué errores deberían evitarse en el diseño de una ruta turística para este segmento?'},
+];
+
+let cur=0;
+const ans={};
+
+function pct(){
+  if(cur===0)return 0;
+  if(cur>=steps.length)return 100;
+  return Math.round(cur/steps.length*100);
+}
+
+function render(){
+  document.getElementById('pg').style.width=pct()+'%';
+  const c=document.getElementById('cc');
+  if(cur>=steps.length){
+    c.innerHTML=`<div class="done">
+      <div class="done-ring">✓</div>
+      <div class="done-h">¡Gracias por su aporte!</div>
+      <div class="done-p">Su participación es fundamental para nuestra investigación sobre turismo MICE en Cali.<br><br>
+      <strong>Jorge González</strong> — Cel. 316 526 9231<br>
+      <strong>Henry Pérez</strong> — Cel. 305 763 4393<br><br>
+      <em>Maestría en Gerencia Turística · Universidad de San Buenaventura Cali</em></div></div>`;
+    return;
+  }
+  const st=steps[cur];
+  if(st.t==='intro'){
+    c.innerHTML=`
+      <div class="intro-title">Caracterización de la Demanda MICE y Preferencias de Experiencias Turísticas en Cali</div>
+      <div class="intro-body">El presente sondeo forma parte del trabajo de grado de la <strong>Maestría en Gerencia Turística</strong> de la Universidad de San Buenaventura Cali. Nos dirigimos a usted porque reconocemos que es uno de los mayores expertos en turismo MICE en Santiago de Cali — su conocimiento y experiencia directa con este segmento son únicos y su aporte no solo le dará legitimidad y profundidad a nuestra investigación, sino que nos permitirá egresar del programa de Maestría.</div>
+      <div class="intro-body">El objetivo es caracterizar la demanda del segmento MICE y sus preferencias en experiencias turísticas complementarias, con el fin de <strong>diseñar una ruta turística cultural</strong> para este segmento.</div>
+      <div class="intro-body">La información recolectada será utilizada exclusivamente con fines académicos, garantizando la confidencialidad de sus datos. Una vez aprobado el artículo, con gusto les compartiremos los resultados.</div>
+      <div class="intro-body">⏱ <strong>Duración estimada: 7 minutos aprox.</strong><br><br>Mayor información:<br>Jorge González — Estudiante Maestría en Gerencia Turística — Cel. 316 526 9231<br>Henry Pérez — Estudiante Maestría en Gerencia Turística — Cel. 305 763 4393</div>
+      <div class="nav"><span></span><button class="btn btn-next" onclick="go(1)">Comenzar →</button></div>`;
+    return;
+  }
+  const sec=S[st.s];
+  const total=steps.length-1;
+  let inp='';
+  if(st.t==='radio'){
+    const v=ans[cur];
+    inp='<div class="opts">'+st.o.map((o,i)=>`
+      <div class="opt${v===i?' sel':''}" onclick="pick(${i},this,'radio')">
+        <div class="circ"><div class="dot"></div></div><span>${o}</span>
+      </div>`).join('')+'</div>';
+  } else if(st.t==='check'){
+    const v=ans[cur]||[];
+    inp='<div class="opts">'+st.o.map((o,i)=>`
+      <div class="opt${v.includes(i)?' sel':''}" onclick="pick(${i},this,'check')">
+        <div class="chk"><span class="chk-mark">✓</span></div><span>${o}</span>
+      </div>`).join('')+'</div>';
+    if(st.hint) inp+=`<div class="hint">${st.hint}</div>`;
+  } else if(st.t==='textarea'){
+    inp=`<textarea id="ta" placeholder="Escriba su respuesta aquí...">${ans[cur]||''}</textarea>`;
+  } else if(st.t==='text'){
+    inp=`<input type="text" id="ta" placeholder="Su respuesta..." value="${(ans[cur]||'').replace(/"/g,'&quot;')}">`;
+  }
+  c.innerHTML=`
+    <div class="step-num">Pregunta ${cur} de ${total}</div>
+    <div class="sec-badge" style="background:${sec.bg};color:${sec.tc}">${sec.n}</div>
+    <div class="q">${st.q}</div>
+    ${inp}
+    <div class="nav">
+      ${cur>0?'<button class="btn btn-back" onclick="go(-1)">← Anterior</button>':'<span></span>'}
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="pct">${pct()}%</span>
+        <button class="btn btn-next" onclick="save();go(1)">${cur===steps.length-1?'Enviar ✓':'Siguiente →'}</button>
+      </div>
+    </div>`;
+}
+
+function pick(i,el,type){
+  if(type==='radio'){
+    ans[cur]=i;
+    el.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel');
+  } else {
+    if(!ans[cur])ans[cur]=[];
+    const idx=ans[cur].indexOf(i);
+    if(idx>-1){ans[cur].splice(idx,1);el.classList.remove('sel');}
+    else{ans[cur].push(i);el.classList.add('sel');}
+  }
+}
+
+function save(){
+  const ta=document.getElementById('ta');
+  if(ta)ans[cur]=ta.value;
+}
+
+function go(d){
+  save();
+  cur=Math.max(0,Math.min(steps.length,cur+d));
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
