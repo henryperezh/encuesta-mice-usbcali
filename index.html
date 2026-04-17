@@ -229,4 +229,13 @@ function go(d){
     window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
-  if(n
+  if(next>=steps.length) sendToSheets();
+  cur=next;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
