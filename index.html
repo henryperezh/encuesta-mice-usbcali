@@ -121,9 +121,9 @@ function render(){
   if(st.t==='intro'){
     c.innerHTML=`
       <div class="intro-title">Caracterización de la Demanda MICE y Preferencias de Experiencias Turísticas en Cali</div>
-      <div class="intro-body">El presente sondeo forma parte del trabajo de grado de la <strong>Maestría en Gerencia Turística</strong> de la Universidad de San Buenaventura Cali. Nos dirigimos a usted porque reconocemos que es uno de los mayores expertos en turismo MICE en Santiago de Cali — su conocimiento y experiencia directa con este segmento son únicos y su aporte no solo le dará legitimidad y profundidad a nuestra investigación, sino que nos permitirá egresar del programa de Maestría.</div>
-      <div class="intro-body">El objetivo es caracterizar la demanda del segmento MICE y sus preferencias en experiencias turísticas complementarias, con el fin de <strong>diseñar una ruta turística cultural</strong> para este segmento.</div>
-      <div class="intro-body">La información recolectada será utilizada exclusivamente con fines académicos, garantizando la confidencialidad de sus datos. Una vez aprobado el artículo, con gusto les compartiremos los resultados.</div>
+      <div class="intro-body" style="text-align:justify">El presente sondeo forma parte del trabajo de grado de la <strong>Maestría en Gerencia Turística</strong> de la Universidad de San Buenaventura Cali. Nos dirigimos a usted porque reconocemos que es uno de los mayores expertos en turismo MICE en Santiago de Cali, ya sea desde el ámbito operativo, institucional o estratégico — su conocimiento y experiencia directa con este segmento son únicos y su aporte no solo le dará legitimidad y profundidad a nuestra investigación, sino que nos permitirá egresar del programa de Maestría.</div>
+      <div class="intro-body" style="text-align:justify">El objetivo es caracterizar la demanda del segmento MICE y sus preferencias en experiencias turísticas complementarias, con el fin de <strong>diseñar una ruta turística cultural</strong> para este segmento.</div>
+      <div class="intro-body" style="text-align:justify">La información recolectada será utilizada exclusivamente con fines académicos, garantizando la confidencialidad de sus datos. Una vez aprobado el artículo, con gusto les compartiremos los resultados.</div>
       <div class="intro-body">⏱ <strong>Duración estimada: 7 minutos aprox.</strong><br><br>Mayor información:<br>Jorge González — Estudiante Maestría en Gerencia Turística — Cel. 316 526 9231<br>Henry Pérez — Estudiante Maestría en Gerencia Turística — Cel. 305 763 4393</div>
       <div class="nav"><span></span><button class="btn btn-next" onclick="go(1)">Comenzar →</button></div>`;
     return;
@@ -229,13 +229,4 @@ function go(d){
     window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
-  if(next>=steps.length) sendToSheets();
-  cur=next;
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-render();
-</script>
-</body>
-</html>
+  if(n
